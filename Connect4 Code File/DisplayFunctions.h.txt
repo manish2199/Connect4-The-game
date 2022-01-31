@@ -1,0 +1,15 @@
+#include "Player.h"
+#pragma once
+
+class DisplayFunctions
+{
+  public :
+    static void showTitle();
+    static void showRules();
+    static void showInstructions();
+    static void showWinner(Player* player);
+    static void showPlayerDetails(Player* player1);
+    static void invalidInput();
+    static void gameStartHeader();
+    static void GameMenu();
+};

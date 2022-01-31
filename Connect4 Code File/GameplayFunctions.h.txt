@@ -1,0 +1,18 @@
+#pragma once
+#include "Player.h"
+#include <iostream>
+using namespace std;
+class GameplayFunctions
+{
+  public :
+    static bool isColumnFull(string boatd[6][7],int choice);
+    static void createBoard(string board[6][7]);
+    static bool isBoardFull(string board[6][7]);
+    static void displayBoard(string board[6][7]);
+    static bool isBracketEmpty(string element);
+    static int inputEntry(string board[6][7],string playerInput , int choice);
+    static bool checkWin(string board[6][7],int row , int colmn);
+    static bool checkForRowMatch(string board[6][7],int row,int colmn);
+    static bool checkForColumnMatch(string board[6][7],int row,int colmn);
+    static bool PlayerTurn(Player *player ,string  board[6][7]);    
+};

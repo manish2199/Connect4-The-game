@@ -1,0 +1,319 @@
+#include "GameplayFunctions.h"
+#include <iostream>
+using namespace std;
+
+//====================================================================================
+
+ 
+ void GameplayFunctions :: createBoard(string board[6][7])
+{
+    for ( int i = 0; i<6; i++)
+    {
+       for( int j = 0; j<7; j++)
+       {
+         board[i][j] = "|_|";
+       }
+    }
+}
+
+
+//====================================================================================
+
+
+ bool GameplayFunctions :: isBoardFull(string board[6][7])
+{
+  int count = 0;
+  bool isFull = false;
+  for( int i=0 ; i<7; i++)
+  {
+    if(count == 7)
+    {
+      isFull = true;
+      break;
+    }
+    if(!isBracketEmpty(board[0][i]))
+    {
+      count++;
+    }
+  }
+  return isFull;
+}
+
+
+//====================================================================================
+
+
+ void  GameplayFunctions :: displayBoard(string board[6][7])
+{
+   cout<<"\n\n============================"<<endl;
+   cout<<"           BOARD"<<endl;
+   cout<<"============================"<<endl;
+   cout<<" 0  1  2  3  4  5  6 "<<endl;
+  //  cout<<" ^  ^  ^  ^  ^  ^  ^ "<<endl;
+   cout<<" v  v  v  v  v  v  v "<<endl; 
+   for ( int i = 0; i<6; i++)
+    {
+       for( int j = 0; j<7; j++)
+       {
+          cout<<board[i][j];
+       }
+       cout<<endl;
+    }
+   cout<<"============================\n\n"<<endl;
+}
+
+
+
+//====================================================================================
+
+
+
+ bool  GameplayFunctions :: isBracketEmpty(string element)
+{
+  if(element == "|R|" || element == "|B|")
+  {
+    return false;
+  }
+  return true;
+}
+
+
+//====================================================================================
+
+
+
+ int GameplayFunctions :: inputEntry(string board[6][7],string playerInput , int choice)
+{
+    int tempR ;
+    for(tempR = 5; tempR >= 0; tempR--)
+    {
+      if(isBracketEmpty(board[tempR][choice]))
+      {
+         board[tempR][choice] = playerInput;
+         break;
+      }
+    }
+    return tempR;
+}
+
+
+
+//====================================================================================
+
+
+
+bool GameplayFunctions :: isColumnFull(string board[6][7],int choice)
+{
+  if(!isBracketEmpty(board[0][choice]))
+  { 
+    return true;
+  } 
+  return false;
+}
+
+
+
+//====================================================================================
+
+
+
+ bool GameplayFunctions :: checkWin(string board[6][7],int row , int colmn)
+{
+  if(checkForRowMatch(board,row,colmn) || checkForColumnMatch(board,row,colmn) )
+  {
+    return true;
+  }
+  return false;
+}
+
+
+
+ bool GameplayFunctions :: checkForRowMatch(string board[6][7],int row,int colmn)
+{
+   bool canGoUp = false;
+   bool canGoDown = false;
+   int up = row; int down = row;
+
+   if(row + 1 <= 5)
+   {
+     down = row + 1;
+     canGoDown = true;
+   }
+   if(row -1 >= 0)
+   {
+     up = row - 1;
+     canGoUp = true;
+   }
+
+   int count = 1;
+   while((board[row][colmn] == board[down][colmn] && canGoDown) ||
+         (board[row][colmn] == board[up][colmn] && canGoUp) )
+   {
+     if(count == 4)
+     {
+       break;
+     }
+
+     //---------------------------
+
+     if((board[row][colmn] == board[down][colmn] && canGoDown))
+     {
+       count ++;
+     }
+     if((board[row][colmn] == board[up][colmn] && canGoUp))
+     {
+       count ++;
+     }
+
+     //---------------------------     
+
+     if(down+1 <= 5)
+     {
+        down ++;
+        canGoDown = true;
+     }
+     else
+     {
+        canGoDown = false;
+     }
+
+     //---------------------------
+     if(up-1 >= 0)
+     {
+       up --;
+       canGoUp = true;       
+     }
+     else
+     {
+       canGoUp = false;
+     }
+   }
+
+   //-----------------------------------------------------------------
+
+   if(count != 4)
+   {
+     return false;
+   }
+   else
+   {
+   return true;
+   }
+}
+
+
+bool GameplayFunctions :: checkForColumnMatch(string board[6][7],int row,int colmn)
+{
+   bool canGoRight = false;
+   bool canGoLeft = false;
+   int right = colmn; int left = colmn;
+
+   if(colmn + 1 <= 6)
+   {
+     right = colmn + 1;
+     canGoRight = true;
+   }
+   if(colmn-1 >= 0)
+   {
+     left = colmn - 1;
+     canGoLeft = true;
+   }
+
+   int count = 1;
+   while((board[row][colmn] == board[row][left] && canGoLeft) ||
+         (board[row][colmn] == board[row][right] && canGoRight) )
+   {
+     if(count == 4)
+     {
+       break;
+     }
+
+     //---------------------------
+
+     if((board[row][colmn] == board[row][left] && canGoLeft))
+     {
+       count ++;
+     }
+     if((board[row][colmn] == board[row][right] && canGoRight))
+     {
+       count ++;
+     }
+
+     //---------------------------     
+
+     if(right+1 <= 6)
+     {
+        right ++;
+        canGoRight = true;
+     }
+     else
+     {
+        canGoRight = false;
+     }
+
+     //---------------------------
+     if(left-1 >= 0)
+     {
+       left --;
+       canGoLeft = true;       
+     }
+     else
+     {
+       canGoLeft = false;
+     }
+   }
+
+   //-----------------------------------------------------------------
+
+   if(count != 4)
+   {
+     return false;
+   }
+   else
+   {
+   return true;
+   }
+}
+
+
+//===================================================================================================================
+
+
+bool GameplayFunctions :: PlayerTurn(Player *player ,string  board[6][7])
+{
+    int plROW;
+    int pl1Choice;
+    string playerType ;
+    if(player->PlayerInput == "|R|")
+    {
+      playerType = "(Red Player(R))";
+    }
+    else
+    {
+       playerType = "(Blue Player(B))";
+    }
+    //  Take input from player and check win condition 
+    do
+    {
+       cout<<"Hey "<<player->name<<" "<<playerType<<" enter column no from 0 to 6 : ";
+       cin>>pl1Choice;
+       if(GameplayFunctions :: isColumnFull(board,pl1Choice))
+       {
+         cout<<"\nThis Column is Full select another column\n\n"<<endl;         
+       }
+    }while(GameplayFunctions::isColumnFull(board,pl1Choice) || pl1Choice > 6 || pl1Choice < 0 );
+
+    plROW = GameplayFunctions :: inputEntry(board,player->PlayerInput,pl1Choice);
+
+    if(GameplayFunctions :: checkWin(board,plROW,pl1Choice))
+     {
+        return true;
+     } 
+    return false;
+}
+
+
+
+
+
+

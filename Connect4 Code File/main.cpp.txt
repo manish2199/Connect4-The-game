@@ -1,0 +1,126 @@
+#include <iostream>
+#include "Player.h"
+#include "DisplayFunctions.h"
+#include "GameplayFunctions.h"
+using namespace std;
+
+void Connect4GamePlay();
+
+
+
+int main() 
+{
+  DisplayFunctions:: showTitle();
+  
+  DisplayFunctions :: GameMenu();
+ 
+  Connect4GamePlay();
+}
+
+
+void continueKey()
+{
+  cout<<"Press ENTER key to continue ";
+  cin.get();
+}
+
+void Connect4GamePlay()
+{
+  string player1name; 
+  string player1InputType;
+  int player1Choice; 
+  string board[6][7];
+
+ cout<<"============================================================================================================================"<<endl;  
+  cout<<"    Hey Player 1 Enter Your name : ";
+  cin>>player1name;
+  cout<<"\n\n";
+  do
+  {
+    cout<<"    Enter '1' --------> Red(R)     Enter '2' --------> Blue(B)"<<endl;
+    cout<<"    Hey "<<player1name<<" please select the color = ";
+    cin>>player1Choice;
+    if(player1Choice != 1 && player1Choice != 2)
+    {
+      DisplayFunctions:: invalidInput();
+    }
+  }while(player1Choice != 1 && player1Choice != 2);
+  if(player1Choice==1)
+  {
+       player1InputType = "|R|";
+  }
+  else
+  {
+       player1InputType = "|B|";
+  }
+  Player* player1 = new Player(player1InputType,player1name);
+  DisplayFunctions :: showPlayerDetails(player1);  
+
+//========================================================================================================================
+
+ string player2name;
+ cout<<"============================================================================================================================"<<endl;  
+ cout<<"\n      Hey Player 2 Enter Your name : ";
+ cin>>player2name;
+
+ bool createBlue = false;
+ bool createRed = false;
+ switch(player1Choice)
+ {
+   case 1 :
+     createBlue = true; 
+     break;
+
+   case 2 :
+     createRed = true; 
+     break;
+ }
+
+  string player2InputType;
+ if(createBlue)
+ {
+      player2InputType = "|B|";
+ }
+ else
+ {
+      player2InputType = "|R|";   
+ }
+  Player* player2 = new Player(player2InputType,player2name);
+  DisplayFunctions :: showPlayerDetails(player2);   
+ 
+  GameplayFunctions :: createBoard(board);
+
+  GameplayFunctions ::displayBoard(board);
+
+  // Main Game  
+  do
+  {
+   if(GameplayFunctions::isBoardFull(board))
+    {
+      cout<<"\n\nDraw Game"<<endl;
+      break;
+    }
+
+    // Player 1 input and win check 
+    if(GameplayFunctions::PlayerTurn(player1,board))
+    {
+       GameplayFunctions :: displayBoard(board);     
+       DisplayFunctions :: showWinner(player1);
+       break;
+    }
+
+    GameplayFunctions :: displayBoard(board);     
+      
+    // Player 2 input and win check 
+    if(GameplayFunctions::PlayerTurn(player2,board))
+    {
+      GameplayFunctions :: displayBoard(board);     
+      DisplayFunctions :: showWinner(player2);
+      break;
+    }
+
+    GameplayFunctions :: displayBoard(board); 
+
+  }while(!GameplayFunctions::isBoardFull(board));
+
+}

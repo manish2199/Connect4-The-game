@@ -1,0 +1,7 @@
+#include "Player.h"
+
+Player::Player(string _input, string _name)
+{
+  PlayerInput = _input;
+  name = _name;
+}
