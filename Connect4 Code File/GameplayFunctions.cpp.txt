@@ -1,4 +1,12 @@
 #include "GameplayFunctions.h"
+#define GREEN "\033[0;32m";
+#define CYAN "\033[0;36m";
+#define WHITE "\033[0;37m";
+#define YELLOW "\033[0;33m";
+#define BRIGHT CYAN "\033[0;96m";
+#define RED "\033[0;31m";
+#define BLUE "\033[0;34m";
+#define MAGENTA "\x1b[35m";
 #include <iostream>
 using namespace std;
 
@@ -45,8 +53,10 @@ using namespace std;
 
  void  GameplayFunctions :: displayBoard(string board[6][7])
 {
+   cout<<WHITE;
    cout<<"\n\n============================"<<endl;
    cout<<"           BOARD"<<endl;
+   cout<<WHITE;   
    cout<<"============================"<<endl;
    cout<<" 0  1  2  3  4  5  6 "<<endl;
   //  cout<<" ^  ^  ^  ^  ^  ^  ^ "<<endl;
@@ -55,10 +65,36 @@ using namespace std;
     {
        for( int j = 0; j<7; j++)
        {
-          cout<<board[i][j];
+          // cout<<board[i][j];
+          if(board[i][j] == "|_|")
+          {
+            cout<<YELLOW;
+            cout<<"|";
+            cout<<MAGENTA;
+            cout<<"_";
+            cout<<YELLOW;
+            cout<<"|";   
+            cout<<WHITE;         
+          }
+          else
+          {
+            if(board[i][j] == "|R|")
+            {
+              cout<<RED;
+              cout<<board[i][j];
+              cout<<WHITE;         
+            }
+            else if(board[i][j] == "|B|")
+            {
+              cout<<BLUE;
+              cout<<board[i][j];
+              cout<<WHITE;  
+            }
+          }
        }
        cout<<endl;
     }
+    cout<<WHITE;
    cout<<"============================\n\n"<<endl;
 }
 
@@ -294,7 +330,9 @@ bool GameplayFunctions :: PlayerTurn(Player *player ,string  board[6][7])
     }
     //  Take input from player and check win condition 
     do
-    {
+    { 
+       if(player->PlayerInput == "|R|") cout<<RED;
+       if(player->PlayerInput == "|B|") cout<<BLUE;
        cout<<"Hey "<<player->name<<" "<<playerType<<" enter column no from 0 to 6 : ";
        cin>>pl1Choice;
        if(GameplayFunctions :: isColumnFull(board,pl1Choice))
