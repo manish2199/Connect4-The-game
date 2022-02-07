@@ -2,6 +2,8 @@
 #include "Player.h"
 #include "DisplayFunctions.h"
 #include "GameplayFunctions.h"
+#include <unistd.h>
+#define CLRSCR "\e[2J\e[H";
 using namespace std;
 
 void Connect4GamePlay();
@@ -47,7 +49,7 @@ void Connect4GamePlay()
   }while(player1Choice != 1 && player1Choice != 2);
   if(player1Choice==1)
   {
-       player1InputType = "|R|";
+      player1InputType = "|R|";
   }
   else
   {
@@ -55,7 +57,7 @@ void Connect4GamePlay()
   }
   Player* player1 = new Player(player1InputType,player1name);
   DisplayFunctions :: showPlayerDetails(player1);  
-
+  
 //========================================================================================================================
 
  string player2name;
@@ -89,7 +91,7 @@ void Connect4GamePlay()
   DisplayFunctions :: showPlayerDetails(player2);   
  
   GameplayFunctions :: createBoard(board);
-
+  
   GameplayFunctions ::displayBoard(board);
 
   // Main Game  
@@ -108,7 +110,7 @@ void Connect4GamePlay()
        DisplayFunctions :: showWinner(player1);
        break;
     }
-
+    
     GameplayFunctions :: displayBoard(board);     
       
     // Player 2 input and win check 
@@ -118,9 +120,8 @@ void Connect4GamePlay()
       DisplayFunctions :: showWinner(player2);
       break;
     }
-
     GameplayFunctions :: displayBoard(board); 
-
+  
   }while(!GameplayFunctions::isBoardFull(board));
 
 }
