@@ -1,15 +1,42 @@
 #include "DisplayFunctions.h"
+#define GREEN "\033[0;32m";
+#define CYAN "\033[0;36m";
+#define WHITE "\033[0;37m";
+#define YELLOW "\033[0;33m";
+#define BRIGHTYELLOW "\033[0;93m";
+#define BRIGHTCYAN "\033[0;96m";
+#define RED "\033[0;31m";
+#define BLUE "\033[0;34m";
+#define MAGENTA "\x1b[35m";
+#include <unistd.h>
+#define CLRSCR "\e[2J\e[H";
+
 #include <iostream>
 using namespace std;
 
 
+// cout << "\033[0;34m" << endl;
+// cout << "THIS COLOR IS BLUE" << endl;
+// cout << "\033[0;32m" << endl;
+// cout << "THIS COLOR IS GREEN" << endl;
+// cout << "\033[0;31m" << endl;
+// cout << "THIS COLOR IS RED" << endl;
+// cout << "\033[0;36m" << endl;
+// cout << "THIS COLOR IS CYAN" << endl;
+// cout << "\033[0;37m" << endl;
+// cout << "THIS COLOR IS WHITE" << endl;
+
+
 void DisplayFunctions :: GameMenu()
 {
+  cout<<WHITE;     
   cout<<"=============================================================================================================================="<<endl;
-  cout<<"                                                          GAME MENU"<<endl; 
+  cout<<"                                                          GAME MENU"<<endl;       
   cout<<"=============================================================================================================================="<<endl;
   string choice;
+  cout<<endl;
   do{
+       cout<<BRIGHTYELLOW;
        cout<<"1.Show Rules."<<endl;
        cout<<"2.Instruction(How To Play)."<<endl;
        cout<<"3.Play Game."<<endl;
@@ -24,57 +51,72 @@ void DisplayFunctions :: GameMenu()
         {
           DisplayFunctions :: showInstructions();
         } 
-        else
+        else if ( choice != "1" && choice != "2" && choice != "3")
         {
+          cout<<RED;
           cout<<"Invalid Input please enter in between 1 and 3 "<<endl;
+          cout<<WHITE;
         }
+        else
+        {}
   }while(choice == "2" || choice == "1");
+  cout<<WHITE;
   cout<<"=============================================================================================================================="<<endl;
 
   gameStartHeader();
-  
+
 }
 
 
 
 void DisplayFunctions :: showTitle()
 { 
+ cout<<WHITE;
  cout<<"    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<endl;
- cout<<"    %                                                                                                                %"<<endl;
- cout<<"    %                 ######    ####    ###    ##  ###    ##  ######   ###### ########       ###                     %"<<endl;
- cout<<"    %                ##       ##    ##  ## ##  ##  ## ##  ##  #       ##         ##       ##  ##                     %"<<endl;
- cout<<"    %               ##       ##      ## ##  ## ##  ##  ## ##  ###### ##          ##     ##    ##                     %"<<endl;
- cout<<"    %                ##       ##    ##  ##    ###  ##    ###  #       ##         ##    ###########                   %"<<endl;
- cout<<"    %                 ######    ####    ##     ##  ##     ##  ######   ######    ##           ##                     %"<<endl; 
- cout<<"    %                                                                                                                %"<<endl;
+ cout<<RED;
+ cout<<"                                                                                                                      "<<endl;
+ cout<<"                      ######    ####    ###    ##  ###    ##  ######   ###### ########       ###                      "<<endl;
+ cout<<"                     ##       ##    ##  ## ##  ##  ## ##  ##  #       ##         ##       ##  ##                      "<<endl;
+ cout<<"                    ##       ##      ## ##  ## ##  ##  ## ##  ###### ##          ##     ##    ##                      "<<endl;
+ cout<<"                     ##       ##    ##  ##    ###  ##    ###  #       ##         ##    ###########                    "<<endl;
+ cout<<"                      ######    ####    ##     ##  ##     ##  ######   ######    ##           ##                      "<<endl; 
+ cout<<"                                                                                                                      "<<endl;
+ cout<<WHITE;
  cout<<"    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"<<endl;
  cout<<"\n";
- cout<<"============================================================================================================================"<<endl;
- cout<<"============================================================================================================================"<<endl;
  cout<<"\n";
 }
 
 void DisplayFunctions :: showRules()
 {
+ cout<<WHITE;
  cout<<"============================================================================================================================"<<endl;
+ cout<<BLUE;
  cout<<"                                                           Rules"<<endl;
+ cout<<WHITE;
  cout<<"============================================================================================================================"<<endl;
+ cout<<BLUE;
  cout<<"||                          1.Two Player (Red(R) &(bLUE(B)) game.                                                         ||"<<endl;
  cout<<"||                          2.Board size is 6 rows & 7 columns.                                                           ||"<<endl; 
  cout<<"||                          3.A player win if he/she is able to connect 4 dots horizontally or vertically.                ||"<<endl; 
- cout<<"||                          4.Draw when the board is fully filled.                                                        ||"<<endl; 
+ cout<<"||                          4.Draw when the board is fully filled.                                                        ||"<<endl;
+ cout<<WHITE;
  cout<<"============================================================================================================================"<<endl;  
  cout<<"\n";
 }
 
 void DisplayFunctions :: showInstructions()
 {
+  cout<<WHITE;
   cout<<"============================================================================================================================"<<endl;
+  cout<<BLUE;
  cout<<"                                                        How To Play"<<endl;
+  cout<<WHITE; 
  cout<<"============================================================================================================================"<<endl;
+ cout<<BRIGHTCYAN;
  cout<<"||                          1.Game starts with player - 1.                                                                ||"<<endl;
  cout<<"||                          2.In each step choose the column number in which you want to drop the ball.                   ||"<<endl; 
- cout<<"||                          3.Row will be filled from bottom to top in any column.                                        ||"<<endl;  
+ cout<<"||                          3.Row will be filled from bottom to top in any column.                                        ||"<<endl; cout<<WHITE;
  cout<<"============================================================================================================================"<<endl;  
  cout<<"\n";
 }
@@ -82,8 +124,11 @@ void DisplayFunctions :: showInstructions()
 
 void DisplayFunctions :: showWinner(Player* player)
 {
+cout<<WHITE;
 cout<<"\n======================================================================================================================="<<endl;
+cout<<YELLOW;
 cout<<"||                                                        Hey "<<player->name<<" you win the game :)                         ||"<<endl;
+cout<<WHITE;
 cout<<"=======================================================================================================================\n"<<endl;
 }
 
@@ -91,25 +136,35 @@ cout<<"=========================================================================
 
 void DisplayFunctions :: showPlayerDetails(Player* player1)
 {
-  cout<<"\n\n===========================================================================================================================\n"<<endl;      
+  cout<<"\n\n===========================================================================================================================\n"<<endl; 
+  if(player1->PlayerInput =="|R|") cout<<RED;  
+  if(player1->PlayerInput =="|B|") cout<<BLUE; 
   cout<<"                            ====================================================="<<endl;
   cout<<"                           |  Player Name : "<<player1->name<<"       Player Color : "<<player1->PlayerInput<<"  |"<<endl;
   cout<<"                            ====================================================="<<endl;
- cout<<"\n============================================================================================================================\n"<<endl;    
+  cout<<WHITE;
+  cout<<"\n============================================================================================================================\n"<<endl;    
 }
 
 
 void DisplayFunctions:: invalidInput()
 {
+  cout<<WHITE;
   cout<<"\n                                   ==============================================="<<endl;
+  cout<<RED;  
   cout<<"                                  | Invalid Input :( Please Enter Between 1 and 2 |"<<endl;
+  cout<<WHITE;  
   cout<<"                                   ===============================================\n"<<endl;    
+  cout<<WHITE;
 }
 
 
 void DisplayFunctions :: gameStartHeader()
 {
+  cout<<WHITE;
 cout<<"\n======================================================================================================================="<<endl;
+cout<<BRIGHTCYAN;
 cout<<"||                                                        GAME STARTS :)                                                ||"<<endl;
+cout<<WHITE;
 cout<<"=======================================================================================================================\n"<<endl;
 }
